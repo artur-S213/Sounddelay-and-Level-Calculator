@@ -5,8 +5,8 @@ import QtQuick.Layouts
 import AcousticController 1.0
 
 Window {
-    width: 1100
-    height: 300
+    width: 1600
+    height: 220
     visible: true
     title: qsTr("Acoustic Delay Calculator")
 
@@ -15,91 +15,94 @@ Window {
         contentWidth: availableWidth
         anchors.centerIn: parent
 
-        Flow {
-            id: responsiveFlow
+        Item {
             width: parent.width
-            anchors.centerIn: parent
-            padding: 10
-            spacing: 5
+            height: childrenRect.height + 32
 
-            // Distance Input
-            ResponsiveTile {
-                id: distanceTile
-                title: "Eingabe in m"
-                titleBoxColor: "#1a1a1a"
-                titleColor: "red"
-                isInput: true
-                // inputValue: Controller.distance.toLocaleString(Qt.locale("C"), "f", 2)
-                // inputValue: "%1".arg(Controller.distance.toFixed(2))
-                inputValue: Controller.distance.toFixed(2)
-                onInputChanged: function (val) {
-                    // let normalized = val
-                    // if (val.includes(".")) {
-                    //     normalized = val.replace(/\./g, "")
-                    // }
-                    // normalized = normalized.replace(",", ".")
-                    // let normalized = val.replace(",", ".");
+            Flow {
+                id: responsiveFlow
+                width: parent.width
+                anchors.centerIn: parent
+                padding: 16
+                spacing: 10
 
-                    let floatVal = parseFloat(val);
-                    if (isNaN(floatVal)) floatVal = 0;
-
-                    let finalValue = Math.min(floatVal, 5000.00);
-                    Controller.distance = finalValue
+                // Distance Input
+                ResponsiveTile {
+                    id: distanceTile
+                    title: "Eingabe in m"
+                    tileColor: "#F4A878"
+                    titleColor: "#3A1500"
+                    valueColor: "#3A1500"
+                    isInput: true
+                    inputValue: Controller.distance.toFixed(2)
+                    onInputChanged: function (val) {
+                        let floatVal = parseFloat(val);
+                        if (isNaN(floatVal)) floatVal = 0;
+                        let finalValue = Math.min(floatVal, 5000.00);
+                        Controller.distance = finalValue
+                    }
                 }
-            }
 
-            // Delay in ms
-            ResponsiveTile {
-                title: "Verzögerung in ms"
-                value: Controller.delay.toFixed(2)
-                titleBoxColor: "#1a3a5a"
-            }
-
-            // Lautsprecher 1 Lautstärke (Input)
-            ResponsiveTile {
-                title: "Schallpegel L1 in dB"
-                titleBoxColor: "#5a4a7a"
-                isInput: true
-                // inputValue: Controller.soundLevelL1.toLocaleString(Qt.locale("C"), "f", 2)
-                // inputValue: "%1".arg(Controller.soundLevelL1.toFixed(2))
-                inputValue: Controller.soundLevelL1.toFixed(2)
-                onInputChanged: function (val) {
-                    let floatVal = parseFloat(val);
-                    if (isNaN(floatVal)) floatVal = 0;
-
-                    let finalValue = Math.min(floatVal, 5000.00);
-                    Controller.soundLevelL1 = finalValue;
+                // Delay in ms
+                ResponsiveTile {
+                    title: "Verzögerung in ms"
+                    value: Controller.delay.toFixed(2)
+                    tileColor: "#F5E6A0"
+                    titleColor: "#3A2E00"
+                    valueColor: "#4A3C00"
                 }
-            }
 
-            // Lautsprecher 2 Lautstärke
-            ResponsiveTile {
-                title: "Schallpegel L2 in dB"
-                value: Controller.soundLevelL2.toFixed(2)
-                titleBoxColor: "#7a6a9a"
-            }
+                // Lautsprecher 1 Lautstärke (Input)
+                ResponsiveTile {
+                    title: "Schallpegel L1 in dB"
+                    tileColor: "#A8C8F0"
+                    titleColor: "#0A1E3A"
+                    valueColor: "#0A1E3A"
+                    isInput: true
+                    inputValue: Controller.soundLevelL1.toFixed(2)
+                    onInputChanged: function (val) {
+                        let floatVal = parseFloat(val);
+                        if (isNaN(floatVal)) floatVal = 0;
+                        let finalValue = Math.min(floatVal, 5000.00);
+                        Controller.soundLevelL1 = finalValue;
+                    }
+                }
 
-            // Abfallpegel in -db
-            ResponsiveTile {
-                title: "Abfallpegel in -dB"
-                value: Controller.dropLevel.toFixed(2)
-                titleBoxColor: "#4a3a5a"
-            }
+                // Lautsprecher 2 Lautstärke
+                ResponsiveTile {
+                    title: "Schallpegel L2 in dB"
+                    value: Controller.soundLevelL2.toFixed(2)
+                    tileColor: "#C0D8F8"
+                    titleColor: "#0A1E3A"
+                    valueColor: "#1A3A5A"
+                }
 
-            // Einstellungspegel
-            ResponsiveTile {
-                title: "Einstellungspegel in -db"
-                value: Controller.adjustmentLevel.toFixed(2)
-                titleBoxColor: "#632523"
-                titleColor: "white"
-            }
+                // Abfallpegel in -dB
+                ResponsiveTile {
+                    title: "Abfallpegel in -dB"
+                    value: Controller.dropLevel.toFixed(2)
+                    tileColor: "#C8ECE8"
+                    titleColor: "#082820"
+                    valueColor: "#0F3828"
+                }
 
-            // Sollwert
-            ResponsiveTile {
-                title: "Sollwert Pegel in db"
-                value: Controller.setpoint.toFixed(2)
-                titleBoxColor: "#40B02C"
-                valueBoxColor: "#62D94A"
+                // Einstellungspegel
+                ResponsiveTile {
+                    title: "Einstellungspegel in -dB"
+                    value: Controller.adjustmentLevel.toFixed(2)
+                    tileColor: "#A8E8C0"
+                    titleColor: "#082810"
+                    valueColor: "#0F3818"
+                }
+
+                // Sollwert
+                ResponsiveTile {
+                    title: "Sollwert Pegel in dB"
+                    value: Controller.setpoint.toFixed(2)
+                    tileColor: "#6EDF78"
+                    titleColor: "#052008"
+                    valueColor: "#0A3010"
+                }
             }
         }
     }
@@ -107,72 +110,86 @@ Window {
     component ResponsiveTile: Column {
         property string title: ""
         property string value: "0,0"
-        property color titleBoxColor: "gray"
-        property color titleColor: "white"
-        property color valueBoxColor: "#c0c0c0"
-        property color valueColor: "white"
+        property color tileColor: "#C0C0C0"
+        property color titleColor: "#333333"
+        property color valueColor: "#555555"
         property bool isInput: false
         property alias inputValue: inputField.text
 
         signal inputChanged(string newValue)
 
-        width: (responsiveFlow.width > 400) ? 150 : parent.width - 80
+        width: (responsiveFlow.width > 470) ? 210 : parent.width - 32
         spacing: 0
 
-        // Oberer Teil (Beschriftung)
         Rectangle {
             width: parent.width
-            height: 35
-            color: titleBoxColor
-            Text {
-                anchors.centerIn: parent
-                text: title
-                color: titleColor
-                font.pixelSize: 11
-                font.bold: true
-                horizontalAlignment: Text.AlignHCenter
-                wrapMode: Text.WordWrap
-                width: parent.width - 4
-            }
-        }
+            height: 80
+            radius: 14
+            color: tileColor
 
-        // Unterer Teil (Wert oder Eingabe)
-        Rectangle {
-            width: parent.width
-            height: 40
-            color: valueBoxColor
-            border.color: "white"
-
-            TextField {
-                id: inputField
-                visible: isInput
+            Column {
                 anchors.fill: parent
-                // Binding on text {
-                //     value: Controller.
-                // }
-                color: valueColor
-                horizontalAlignment: TextInput.AlignHCenter
-                background: null
-                // validator: DoubleValidator {
-                //     bottom: 0
-                //     decimals: 2
-                //     locale: "C"
-                // }
-                inputMethodHints: Qt.ImhFormattedNumbersOnly
-                onEditingFinished: {
-                    let cleanText = text.replace(",", ".");
-                    text = cleanText;
-                    inputChanged(cleanText);
-                    focus = false;
-                }
-            }
+                anchors.margins: 10
+                spacing: 6
 
-            Text {
-                visible: !isInput
-                anchors.centerIn: parent
-                text: value
-                color: valueColor
-                font.pixelSize: 16
+                // Titel
+                Text {
+                    width: parent.width
+                    text: title
+                    color: titleColor
+                    font.pixelSize: 16
+                    // font.bold: true
+                    horizontalAlignment: Text.AlignHCenter
+                    wrapMode: Text.WordWrap
+                }
+
+
+                // Wert oder Eingabe
+                Item {
+                    width: parent.width
+                    height: 40
+
+                    TextField {
+                        id: inputField
+                        visible: isInput
+                        anchors.fill: parent
+                        color: valueColor
+                        font.pixelSize: 19
+                        selectByMouse: true
+                        font.bold: true
+                        horizontalAlignment: TextInput.AlignHCenter
+                        background: null
+                        inputMethodHints: Qt.ImhFormattedNumbersOnly
+                        onEditingFinished: {
+                            let cleanText = text.replace(",", ".");
+                            text = cleanText;
+                            inputChanged(cleanText);
+                            focus = false;
+                        }
+                    }
+
+                    // Text {
+                    //     visible: !isInput
+                    //     anchors.centerIn: parent
+                    //     text: value
+                    //     color: valueColor
+                    //     font.pixelSize: 20
+                    //     // font.italic: true
+                    // }
+                    TextEdit {
+                        visible: !isInput
+                        anchors.centerIn: parent
+                        text: value
+                        color: valueColor
+                        font.pixelSize: 20
+                        // font.italic: true
+                        readOnly: true
+                        selectByMouse: true
+                        selectByKeyboard: true
+                        horizontalAlignment: TextEdit.AlignHCenter
+                        // background: null
+                    }
+                }
             }
         }
     }

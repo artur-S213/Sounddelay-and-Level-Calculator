@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
   qDebug() << "QML Import Paths:" << engine.importPathList();
 
   engine.addImportPath(QCoreApplication::applicationDirPath() + "/../../qml");
-  engine.loadFromModule("AcousticUI", "AICode2");
+  engine.loadFromModule("AcousticUI", "Main");
 
   return app.exec();
 }

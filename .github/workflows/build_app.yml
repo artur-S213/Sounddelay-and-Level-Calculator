@@ -1,0 +1,48 @@
+name: Release Build
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    name: Build for ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            artifact_name: Acoustic_Soundlevel_Calculator
+          - os: windows-latest
+            artifact_name: Acoustic_Soundlevel_Calculator.exe
+          - os: macos-latest
+            artifact_name: Acoustic_Soundlevel_Calculator
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: '6.6.0'
+
+      - name: Build
+        run: |
+          mkdir build
+          cd build
+          cmake .. -DCMAKE_BUILD_TYPE=Release
+          cmake --build . --config Release
+
+      # Beispiel für Windows Packaging
+      - name: Package Windows
+        if: matrix.os == 'windows-latest'
+        run: |
+          windeployqt build/Release/your_app.exe
+          # Hier die .exe und DLLs zippen oder als Artefakt speichern
+
+      - name: Upload Binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: build/Release/ # Pfad anpassen
