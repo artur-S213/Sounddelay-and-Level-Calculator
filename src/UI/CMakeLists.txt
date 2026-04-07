@@ -3,6 +3,9 @@ qt_add_qml_module(UIModule
     VERSION 1.0
     QML_FILES
         Main.qml
+        AICode.qml
+        AICode2.qml
+        NewAICode.qml
 )
 
 # set_source_files_properties(Main.qml PROPERTIES QT_QML_SINGLETON_TYPE FALSE)
