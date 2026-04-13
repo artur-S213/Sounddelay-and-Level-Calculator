@@ -17,6 +17,19 @@ enable_testing()
 add_subdirectory(tests)
 
 
+if(WIN32)
+    # Bindet die .rc Datei ein, die auf icon.ico verweist
+    # Pfad ist relativ zur CMakeLists.txt
+    set(SOURCES ${SOURCES} icons/resources.rc)
+
+elseif(APPLE)
+    # Icon für das macOS .app Bundle
+    set(MACOSX_BUNDLE_ICON_FILE icons/icon.icns)
+    set_source_files_properties(icons/icon.icns PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
+    set(SOURCES ${SOURCES} icons/icon.icns)
+
+endif()
+
 
 
 

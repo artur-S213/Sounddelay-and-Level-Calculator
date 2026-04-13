@@ -6,6 +6,9 @@ printFiles.sh
 # Prerequisites
 *.d
 
+# Qt Project Files
+.qtcreator/
+
 # Compiled Object files
 *.slo
 *.lo

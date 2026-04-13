@@ -1,4 +1,5 @@
-name: Release Build
+name: Multi-Platform Qt Build
+
 on:
   push:
     tags:
@@ -6,43 +7,84 @@ on:
 
 jobs:
   build:
-    name: Build for ${{ matrix.os }}
+    name: ${{ matrix.os }} (${{ matrix.arch }})
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false # Verhindert, dass alle Jobs abbrechen, wenn einer fehlschlägt
       matrix:
         include:
-          - os: ubuntu-latest
-            artifact_name: Acoustic_Soundlevel_Calculator
+          # macOS Intel (10.15 Support)
+          - os: macos-13
+            arch: x86_64
+            qt_arch: clang_64
+          # macOS Apple Silicon
+          - os: macos-14
+            arch: arm64
+            qt_arch: clang_64
+          # Windows (Standard 64-bit)
           - os: windows-latest
-            artifact_name: Acoustic_Soundlevel_Calculator.exe
-          - os: macos-latest
-            artifact_name: Acoustic_Soundlevel_Calculator
+            arch: x64
+            qt_arch: msvc2019_64
+          # Linux (Ubuntu)
+          - os: ubuntu-latest
+            arch: x86_64
+            qt_arch: gcc_64
 
     steps:
-      - name: Checkout
+      - name: Checkout Code
         uses: actions/checkout@v4
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
         with:
-          version: '6.6.0'
+          version: '6.8.0'
+          arch: ${{ matrix.qt_arch }}
+          # Caching ist automatisch aktiv
 
-      - name: Build
+      - name: Install Linux Dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libxcb-xinerama0 libgl1-mesa-dev libxkbcommon-x11-0 libxcb-cursor0
+
+      - name: Set macOS Target
+        if: matrix.os == 'macos-13'
+        run: echo "MACOSX_DEPLOYMENT_TARGET=10.15" >> $GITHUB_ENV
+
+      # 4. Konfigurieren & Bauen
+      - name: Build App
+        shell: bash # Einheitliche Shell erleichtert die Syntax
         run: |
           mkdir build
           cd build
-          cmake .. -DCMAKE_BUILD_TYPE=Release
-          cmake --build . --config Release
+          cmake .. -DCMAKE_BUILD_TYPE=Release \
+            ${{ runner.os == 'macOS' && format('-DCMAKE_OSX_ARCHITECTURES={0}', matrix.arch) || '' }}
+          cmake --build . --config Release --parallel
 
-      # Beispiel für Windows Packaging
+      # 5. Packaging (Unterschiedlich je nach OS)
       - name: Package Windows
-        if: matrix.os == 'windows-latest'
+        if: runner.os == 'Windows'
         run: |
-          windeployqt build/Release/your_app.exe
-          # Hier die .exe und DLLs zippen oder als Artefakt speichern
+          windeployqt build/Release/YourAppName.exe --dir build/dist
 
-      - name: Upload Binaries
+      - name: Package MacOS
+        if: runner.os == 'macOS'
+        run: |
+          macdeployqt build/YourAppName.app -dmg
+          mv build/*.dmg build/YourAppName-${{ matrix.arch }}.dmg
+
+      - name: Package Linux (AppImage)
+        if: runner.os == 'Linux'
+        run: |
+          # Hier nutzt man oft linuxdeployqt, um ein AppImage zu erstellen
+          echo "Hier Linux Packaging Logik einfügen"
+
+      # 6. Upload der fertigen Dateien
+      - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.artifact_name }}
-          path: build/Release/ # Pfad anpassen
+          name: ${{ matrix.os }}-${{ matrix.arch }}-build
+          path: |
+            build/*.dmg
+            build/*.zip
+            build/dist/
