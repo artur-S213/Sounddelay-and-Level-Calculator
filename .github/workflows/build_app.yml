@@ -10,7 +10,7 @@ jobs:
     name: ${{ matrix.os }} (${{ matrix.arch }})
     runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: false # Verhindert, dass alle Jobs abbrechen, wenn einer fehlschlägt
+      fail-fast: false # Avoid stopping all jobs, if one fails
       matrix:
         include:
           # macOS Intel (10.15 Support)
@@ -51,7 +51,7 @@ jobs:
         if: matrix.os == 'macos-13'
         run: echo "MACOSX_DEPLOYMENT_TARGET=10.15" >> $GITHUB_ENV
 
-      # 4. Konfigurieren & Bauen
+      # 4. Configure & Build
       - name: Build App
         shell: bash # Einheitliche Shell erleichtert die Syntax
         run: |
@@ -61,23 +61,29 @@ jobs:
             ${{ runner.os == 'macOS' && format('-DCMAKE_OSX_ARCHITECTURES={0}', matrix.arch) || '' }}
           cmake --build . --config Release --parallel
 
-      # 5. Packaging (Unterschiedlich je nach OS)
+      # 5. Packaging ( for Windows, MacOS, Linux)
       - name: Package Windows
         if: runner.os == 'Windows'
         run: |
-          windeployqt build/Release/YourAppName.exe --dir build/dist
-
+          # Annahme: Dein Target heißt appAcoustic_Calculator
+          # windeployqt braucht den Pfad zur .exe
+          windeployqt build/src/Controller/Release/appAcoustic_Calculator.exe --dir build/dist --qmldir src/UI/
+          powershell Compress-Archive -Path build/dist/* -DestinationPath build/Acoustic_Calculator_Windows.zip
+      
       - name: Package MacOS
         if: runner.os == 'macOS'
         run: |
-          macdeployqt build/YourAppName.app -dmg
-          mv build/*.dmg build/YourAppName-${{ matrix.arch }}.dmg
-
-      - name: Package Linux (AppImage)
+          macdeployqt build/src/Controller/appAcoustic_Calculator.app -dmg -qmldir=src/UI/
+          mv build/src/Controller/appAcoustic_Calculator.dmg build/Acoustic_Calculator-MacOS-${{ matrix.arch }}.dmg
+      
+      - name: Package Linux (Einfacher Weg)
         if: runner.os == 'Linux'
         run: |
-          # Hier nutzt man oft linuxdeployqt, um ein AppImage zu erstellen
-          echo "Hier Linux Packaging Logik einfügen"
+          # Da AppImage-Setup aufwendig ist, zippen wir hier erst mal nur das Binary + Libs
+          mkdir -p build/dist
+          cp build/src/appAcoustic_Calculator build/dist/
+          # Hinweis: Ohne linuxdeployqt wird das Binary auf anderen PCs evtl. nicht starten
+          tar -czf build/Acoustic_Calculator_Linux.tar.gz -C build/dist .
 
       # 6. Upload der fertigen Dateien
       - name: Upload Artifacts

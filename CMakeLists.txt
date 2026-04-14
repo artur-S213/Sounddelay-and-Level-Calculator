@@ -31,7 +31,15 @@ elseif(APPLE)
 endif()
 
 
-
+# Falls dein Target in src/CMakeLists.txt "appAcoustic_Calculator" heißt:
+set_target_properties(appAcoustic_Calculator PROPERTIES
+    MACOSX_BUNDLE_GUI_IDENTIFIER com.yourdomain.acoustic-calculator
+    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
+    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+    MACOSX_BUNDLE TRUE
+    WIN32_EXECUTABLE TRUE
+    MACOSX_BUNDLE_ICON_FILE icon.icns # Muss der Dateiname sein, der in Resources landet
+)
 
 # # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # # If you are developing for iOS or macOS you should consider setting an
