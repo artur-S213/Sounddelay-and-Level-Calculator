@@ -7,6 +7,9 @@ on:
       - 'v*'
   workflow_dispatch:
 
+permissions:
+    contents: write
+    
 jobs:
   build:
     name: ${{ matrix.os }} (${{ matrix.arch }})
@@ -115,8 +118,9 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            build/*.dmg
+            *.dmg
             build/*.zip
             build/*.tar.gz
+            build/Acoustic_Calculator_Windows.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
