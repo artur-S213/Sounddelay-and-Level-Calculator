@@ -70,11 +70,29 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          # Prüfe wo die .exe wirklich liegt (oft direkt in build/ oder build/src/)
-          $EXE_PATH=$(Get-ChildItem -Path build -Filter appAcoustic_Calculator.exe -Recurse | Select-Object -ExpandProperty FullName)
-          windeployqt $EXE_PATH --dir build/dist --qmldir src/UI/
+          # Erstelle das Zielverzeichnis explizit
+          New-Item -ItemType Directory -Force -Path build/dist
+          
+          # Suche die .exe dynamisch (beachtet auch Unterordner wie build/Release)
+          $EXE_PATH = (Get-ChildItem -Path build -Filter appAcoustic_Calculator.exe -Recurse | Select-Object -ExpandProperty FullName -First 1)
+          
+          if (-not $EXE_PATH) {
+            Write-Error "Die Datei appAcoustic_Calculator.exe wurde im build-Ordner nicht gefunden!"
+            exit 1
+          }
+          
+          Write-Host "Deploying: $EXE_PATH"
+          
+          # Kopiere die EXE zuerst in den dist-Ordner
+          Copy-Item $EXE_PATH -Destination build/dist/
+          $DIST_EXE = "build/dist/appAcoustic_Calculator.exe"
+          
+          # Führe windeployqt auf die kopierte EXE im dist-Ordner aus
+          # --no-compiler-runtime spart oft Probleme mit fehlenden DLLs auf dem Runner
+          windeployqt --dir build/dist --qmldir src/UI/ --no-translations --compiler-runtime $DIST_EXE
+          
+          # Zippe den Inhalt von dist
           Compress-Archive -Path build/dist/* -DestinationPath build/Acoustic_Calculator_Windows.zip
-
       # - name: Package MacOS
       #   if: runner.os == 'macOS'
       #   run: |
