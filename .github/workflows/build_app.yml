@@ -25,13 +25,13 @@ jobs:
             qt_arch: clang_64
             min_os: "11.0"
           # Windows
-          - os: windows-latest
-            arch: x64
-            qt_arch: msvc2019_64
-          # Linux
-          - os: ubuntu-24.04 # Explizite Version statt latest für Vorhersehbarkeit
-            arch: x86_64
-            qt_arch: gcc_64
+          # - os: windows-latest
+          #   arch: x64
+          #   qt_arch: msvc2019_64
+          # # Linux
+          # - os: ubuntu-24.04 # Explizite Version statt latest für Vorhersehbarkeit
+          #   arch: x86_64
+          #   qt_arch: gcc_64
 
     steps:
       - name: Checkout Code
@@ -43,11 +43,11 @@ jobs:
           version: '6.8.0'
           arch: ${{ matrix.qt_arch }}
 
-      - name: Install Linux Dependencies
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libxcb-xinerama0 libgl1-mesa-dev libxkbcommon-x11-0 libxcb-cursor0 libxcb-icccm4-dev libxcb-image0-dev libxcb-keysyms1-dev libxcb-render-util0-dev libxcb-shape0-dev
+      # - name: Install Linux Dependencies
+      #   if: runner.os == 'Linux'
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install -y libxcb-xinerama0 libgl1-mesa-dev libxkbcommon-x11-0 libxcb-cursor0 libxcb-icccm4-dev libxcb-image0-dev libxcb-keysyms1-dev libxcb-render-util0-dev libxcb-shape0-dev
 
       - name: Set macOS Deployment Target
         if: runner.os == 'macOS'
@@ -61,14 +61,14 @@ jobs:
             ${{ runner.os == 'macOS' && format('-DCMAKE_OSX_ARCHITECTURES={0}', matrix.arch) || '' }}
           cmake --build build --config Release --parallel
 
-      - name: Package Windows
-        if: runner.os == 'Windows'
-        shell: pwsh
-        run: |
-          # Prüfe wo die .exe wirklich liegt (oft direkt in build/ oder build/src/)
-          $EXE_PATH=$(Get-ChildItem -Path build -Filter appAcoustic_Calculator.exe -Recurse | Select-Object -ExpandProperty FullName)
-          windeployqt $EXE_PATH --dir build/dist --qmldir src/UI/
-          Compress-Archive -Path build/dist/* -DestinationPath build/Acoustic_Calculator_Windows.zip
+      # - name: Package Windows
+      #   if: runner.os == 'Windows'
+      #   shell: pwsh
+      #   run: |
+      #     # Prüfe wo die .exe wirklich liegt (oft direkt in build/ oder build/src/)
+      #     $EXE_PATH=$(Get-ChildItem -Path build -Filter appAcoustic_Calculator.exe -Recurse | Select-Object -ExpandProperty FullName)
+      #     windeployqt $EXE_PATH --dir build/dist --qmldir src/UI/
+      #     Compress-Archive -Path build/dist/* -DestinationPath build/Acoustic_Calculator_Windows.zip
 
       - name: Package MacOS
         if: runner.os == 'macOS'
@@ -78,19 +78,19 @@ jobs:
           macdeployqt "$APP_BUNDLE" -dmg -qmldir=src/UI/
           mv build/**/*.dmg build/Acoustic_Calculator-MacOS-${{ matrix.arch }}.dmg || mv *.dmg build/Acoustic_Calculator-MacOS-${{ matrix.arch }}.dmg
 
-      - name: Package Linux
-        if: runner.os == 'Linux'
-        run: |
-          BINARY_PATH=$(find build -name "appAcoustic_Calculator" -type f -executable | head -n 1)
-          mkdir -p build/dist
-          cp "$BINARY_PATH" build/dist/
-          tar -czf build/Acoustic_Calculator_Linux.tar.gz -C build/dist .
+      # - name: Package Linux
+      #   if: runner.os == 'Linux'
+      #   run: |
+      #     BINARY_PATH=$(find build -name "appAcoustic_Calculator" -type f -executable | head -n 1)
+      #     mkdir -p build/dist
+      #     cp "$BINARY_PATH" build/dist/
+      #     tar -czf build/Acoustic_Calculator_Linux.tar.gz -C build/dist .
 
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: Release-${{ matrix.os }}-${{ matrix.arch }}
-          path: |
-            build/*.dmg
-            build/*.zip
-            build/*.tar.gz
+      # - name: Upload Artifacts
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: Release-${{ matrix.os }}-${{ matrix.arch }}
+      #     path: |
+      #       build/*.dmg
+      #       build/*.zip
+      #       build/*.tar.gz
