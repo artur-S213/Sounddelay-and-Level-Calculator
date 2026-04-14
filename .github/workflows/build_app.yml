@@ -70,30 +70,39 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          # Erstelle das Zielverzeichnis explizit
+          # 1. Debug: Zeige alle .exe Dateien im build Ordner an, falls die Suche fehlschlägt
+          Write-Host "Suche nach .exe Dateien in $(Get-Location)..."
+          Get-ChildItem -Path build -Filter *.exe -Recurse | Select-Object FullName
+
+          # 2. Erstelle das Zielverzeichnis
           New-Item -ItemType Directory -Force -Path build/dist
           
-          # Suche die .exe dynamisch (beachtet auch Unterordner wie build/Release)
-          $EXE_PATH = (Get-ChildItem -Path build -Filter appAcoustic_Calculator.exe -Recurse | Select-Object -ExpandProperty FullName -First 1)
+          # 3. Suche die .exe (Wir suchen nach dem Namen, den CMake typischerweise vergibt)
+          # Da dein Projekt 'appAcoustic_Calculator' heißt, suchen wir genau danach.
+          $EXE_PATH = (Get-ChildItem -Path build -Filter "appAcoustic_Calculator.exe" -Recurse | Select-Object -ExpandProperty FullName -First 1)
           
           if (-not $EXE_PATH) {
-            Write-Error "Die Datei appAcoustic_Calculator.exe wurde im build-Ordner nicht gefunden!"
+            # Falls die EXE einen anderen Namen hat (z.B. ohne 'app'), suchen wir breiter
+            $EXE_PATH = (Get-ChildItem -Path build -Filter "*Acoustic*Calculator*.exe" -Recurse | Select-Object -ExpandProperty FullName -First 1)
+          }
+
+          if (-not $EXE_PATH) {
+            Write-Error "Konnte die ausführbare Datei nicht finden. Bitte prüfe den Namen im CMakeLists.txt (Project Name oder Target Name)."
             exit 1
           }
           
-          Write-Host "Deploying: $EXE_PATH"
+          Write-Host "Gefundene EXE: $EXE_PATH"
           
-          # Kopiere die EXE zuerst in den dist-Ordner
-          Copy-Item $EXE_PATH -Destination build/dist/
-          $DIST_EXE = "build/dist/appAcoustic_Calculator.exe"
+          # 4. In den dist-Ordner kopieren
+          Copy-Item $EXE_PATH -Destination build/dist/appAcoustic_Calculator.exe
           
-          # Führe windeployqt auf die kopierte EXE im dist-Ordner aus
-          # --no-compiler-runtime spart oft Probleme mit fehlenden DLLs auf dem Runner
-          windeployqt --dir build/dist --qmldir src/UI/ --no-translations --compiler-runtime $DIST_EXE
+          # 5. windeployqt ausführen
+          # Wir nutzen den absoluten Pfad zum Tool, falls es nicht im PATH ist
+          $WIND_PATH = (Get-ChildItem -Path $env:Qt6_DIR -Filter windeployqt.exe -Recurse | Select-Object -ExpandProperty FullName -First 1)
+          & $WIND_PATH --dir build/dist --qmldir src/UI/ --no-translations --compiler-runtime build/dist/appAcoustic_Calculator.exe
           
-          # Zippe den Inhalt von dist
-          Compress-Archive -Path build/dist/* -DestinationPath build/Acoustic_Calculator_Windows.zip
-      # - name: Package MacOS
+          # 6. Zippen
+          Compress-Archive -Path build/dist/* -DestinationPath build/Acoustic_Calculator_Windows.zip      # - name: Package MacOS
       #   if: runner.os == 'macOS'
       #   run: |
       #     APP_BUNDLE=$(find build -name "*.app" -type d | head -n 1)
