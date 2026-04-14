@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.16)
 
 project(Acoustic_Calculator VERSION 0.1 LANGUAGES CXX)
+if(POLICY QTP0001)
+    qt_policy(SET QTP0001 NEW)
+endif()
 
 set(QT_QML_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/qml)
 
