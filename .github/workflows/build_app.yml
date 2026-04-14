@@ -94,3 +94,4 @@ jobs:
             build/*.dmg
             build/*.zip
             build/dist/
+

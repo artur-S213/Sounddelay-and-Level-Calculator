@@ -2,7 +2,20 @@
 
 A calculator to get the sounddelay between two louspeaker positions with a given distance and the soundlevel of the second loudspeakers.
 
-### Project Requirements
+<!-- <img src="docs/app_preview.png" alt="Beschreibung" width="700"> -->
+![App Preview](docs/app_preview.png)
+
+Hint:
+
+- Sound pressure level ≠ sound intensity level
+- L2=L1-20*log(r1/r2)
+- L2=L1-10*log(r1/r2)²
+
+#### References
+
+1. Sengpielaudio: <https://sengpielaudio.com/Rechner-SchallUndEntfernung.htm>
+
+## Project Requirements
 
 This Project was created with the Open-Source-Version of Qt.
 

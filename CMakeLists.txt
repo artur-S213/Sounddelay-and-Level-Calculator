@@ -32,7 +32,7 @@ endif()
 
 
 # Falls dein Target in src/CMakeLists.txt "appAcoustic_Calculator" heißt:
-set_target_properties(appAcoustic_Calculator PROPERTIES
+set_target_properties(app PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER com.yourdomain.acoustic-calculator
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
