@@ -77,24 +77,16 @@ jobs:
       - name: Package MacOS
         if: runner.os == 'macOS'
         run: |
-          # 1. Suche das .app Bundle
           APP_BUNDLE=$(find build -name "*.app" -type d | head -n 1)
           echo "Gefundenes Bundle: $APP_BUNDLE"
-
-          # 2. Deployment ausführen
-          # -executable zeigt auf das eigentliche Binary im Bundle
-          # -no-plugins verhindert, dass er nach fehlenden SQL-Treibern sucht
-          # Falls du Plugins brauchst, lass -no-plugins weg.
           macdeployqt "$APP_BUNDLE" -qmldir=src/UI/ -verbose=1 -no-plugins
 
           sleep 5
-
-          # 4. DMG manuell erstellen (stabiler als der interne macdeployqt DMG-Befehl)
-          hdiutil create -volname "AcousticCalculator" -srcfolder "$APP_BUNDLE" -ov -format UDZO "Acoustic_Calculator-MacOS-${{ matrix.arch }}.dmg"
-          
-          # 5. Verschiebe das DMG in den build Ordner für den Upload-Step
-          mkdir -p build/
-          mv *.dmg build/
+          # Create .dmg file
+          hdiutil create -volname "AcousticCalculator" -srcfolder "$APP_BUNDLE" -ov -format UDZO "${{ github.workspace }}/Acoustic_Calculator-MacOS-${{ matrix.arch }}.dmg"          
+          # move everything to build folder
+          # mkdir -p build/
+          # mv *.dmg build/
 
       # - name: Package Linux
       #   if: runner.os == 'Linux'
@@ -107,13 +99,13 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          # Einzigartiger Name pro Matrix-Job
           name: assets-${{ matrix.os }}-${{ matrix.arch }}
           path: |
-            *.dmg
+            build/*.dmg
             build/*.zip
             build/*.tar.gz
-
+          if-no-files-found: error  
+          
   publish:
     needs: build
     runs-on: ubuntu-latest
@@ -124,14 +116,11 @@ jobs:
         with:
           path: all-assets
           pattern: assets-*
-          merge-multiple: true # Wirft alle Dateien in einen Ordner
+          merge-multiple: true
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          files: |
-            all-assets/*.dmg
-            all-assets/*.zip
-            all-assets/*.tar.gz
+          files: all-assets/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
