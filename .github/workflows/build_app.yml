@@ -102,7 +102,7 @@ jobs:
           
           # Deployment
           macdeployqt "$APP_BUNDLE" -qmldir=src/UI/ -verbose=1 -no-plugins -dmg
-          
+          sleep 5
           # Move .dmg file into build folder
           mv inst/*.dmg build/Acoustic_Calculator-MacOS-${{ matrix.arch }}.dmg
 

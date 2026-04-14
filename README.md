@@ -2,7 +2,8 @@
 
 A calculator to get the sounddelay between two louspeaker positions with a given distance and the soundlevel of the second loudspeakers.
 
-<!-- <img src="docs/app_preview.png" alt="Beschreibung" width="700"> -->
+Sdalcal
+
 ![App Preview](docs/app_preview.png)
 
 Hint:
@@ -17,10 +18,13 @@ Hint:
 
 ## Project Requirements
 
-This Project was created with the Open-Source-Version of Qt.
+This Project was created with the Open-Source-Version of Qt (Version 6.10.1).
 
 - Download Qt: <https://www.qt.io/development/download-open-source>
-- Install Qt Version: 6.10.0
+- Qt Version: 6.10.1
+- Qt Creator Version. 19.0.0
+- Cmake Version: 3.30.5
+- Ninja Version: 1.12.1
 
 #### Install Build Essentials
 
