@@ -19,15 +19,15 @@ jobs:
       matrix:
         include:
           # macOS Intel
-          # - os: macos-14
-          #   arch: x86_64
-          #   qt_arch: clang_64
-          #   min_os: "10.15"
-          # # macOS Apple Silicon
-          # - os: macos-14
-          #   arch: arm64
-          #   qt_arch: clang_64
-          #   min_os: "11.0"
+          - os: macos-14
+            arch: x86_64
+            qt_arch: clang_64
+            min_os: "10.15"
+          # macOS Apple Silicon
+          - os: macos-14
+            arch: arm64
+            qt_arch: clang_64
+            min_os: "11.0"
           # Windows
           - os: windows-latest
             arch: x64
@@ -53,9 +53,9 @@ jobs:
       #     sudo apt-get update
       #     sudo apt-get install -y libxcb-xinerama0 libgl1-mesa-dev libxkbcommon-x11-0 libxcb-cursor0 libxcb-icccm4-dev libxcb-image0-dev libxcb-keysyms1-dev libxcb-render-util0-dev libxcb-shape0-dev
 
-      # - name: Set macOS Deployment Target
-      #   if: runner.os == 'macOS'
-      #   run: echo "MACOSX_DEPLOYMENT_TARGET=${{ matrix.min_os }}" >> $GITHUB_ENV
+      - name: Set macOS Deployment Target
+        if: runner.os == 'macOS'
+        run: echo "MACOSX_DEPLOYMENT_TARGET=${{ matrix.min_os }}" >> $GITHUB_ENV
 
       - name: Configure & Build
         shell: bash
@@ -92,19 +92,19 @@ jobs:
           
           # Zippen für das Release
           Compress-Archive -Path dist/* -DestinationPath build/Acoustic_Calculator_Windows.zip
-                
-      # - name: Package MacOS
-      #   if: runner.os == 'macOS'
-      #   run: |
-      #     # Suche das .app Bundle im Installations-Verzeichnis
-      #     APP_BUNDLE=$(find inst -name "*.app" -type d | head -n 1)
-      #     echo "Gefundenes Bundle: $APP_BUNDLE"
+
+      - name: Package MacOS
+        if: runner.os == 'macOS'
+        run: |
+          # Suche das .app Bundle im Installations-Verzeichnis
+          APP_BUNDLE=$(find inst -name "*.app" -type d | head -n 1)
+          echo "Gefundenes Bundle: $APP_BUNDLE"
           
-      #     # Deployment
-      #     macdeployqt "$APP_BUNDLE" -qmldir=src/UI/ -verbose=1 -no-plugins -dmg
+          # Deployment
+          macdeployqt "$APP_BUNDLE" -qmldir=src/UI/ -verbose=1 -no-plugins -dmg
           
-      #     # Move .dmg file into build folder
-      #     mv inst/*.dmg build/Acoustic_Calculator-MacOS-${{ matrix.arch }}.dmg
+          # Move .dmg file into build folder
+          mv inst/*.dmg build/Acoustic_Calculator-MacOS-${{ matrix.arch }}.dmg
 
       # - name: Package Linux
       #   if: runner.os == 'Linux'
