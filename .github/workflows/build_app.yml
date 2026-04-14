@@ -5,7 +5,7 @@ on:
   push:
     tags:
       - 'v*'
-  workflow_dispatch: # Erlaubt manuelles Testen ohne Tags!
+  workflow_dispatch:
 
 jobs:
   build:
@@ -92,7 +92,7 @@ jobs:
           # 5. Verschiebe das DMG in den build Ordner für den Upload-Step
           mkdir -p build/artifacts
           mv *.dmg build/artifacts/
-          
+
       # - name: Package Linux
       #   if: runner.os == 'Linux'
       #   run: |
@@ -101,11 +101,11 @@ jobs:
       #     cp "$BINARY_PATH" build/dist/
       #     tar -czf build/Acoustic_Calculator_Linux.tar.gz -C build/dist .
 
-      # - name: Upload Artifacts
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: Release-${{ matrix.os }}-${{ matrix.arch }}
-      #     path: |
-      #       build/*.dmg
-      #       build/*.zip
-      #       build/*.tar.gz
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Release-${{ matrix.os }}-${{ matrix.arch }}
+          path: |
+            build/*.dmg
+            build/*.zip
+            build/*.tar.gz
