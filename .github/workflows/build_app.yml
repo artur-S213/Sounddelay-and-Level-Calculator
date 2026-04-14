@@ -9,7 +9,7 @@ on:
 
 permissions:
     contents: write
-    
+
 jobs:
   build:
     name: ${{ matrix.os }} (${{ matrix.arch }})
@@ -107,20 +107,31 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: Release-${{ matrix.os }}-${{ matrix.arch }}
+          # Einzigartiger Name pro Matrix-Job
+          name: assets-${{ matrix.os }}-${{ matrix.arch }}
           path: |
-            build/*.dmg
-            build/*.zip
-            build/*.tar.gz
-
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: |
             *.dmg
             build/*.zip
             build/*.tar.gz
-            build/Acoustic_Calculator_Windows.zip
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: all-assets
+          pattern: assets-*
+          merge-multiple: true # Wirft alle Dateien in einen Ordner
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            all-assets/*.dmg
+            all-assets/*.zip
+            all-assets/*.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
