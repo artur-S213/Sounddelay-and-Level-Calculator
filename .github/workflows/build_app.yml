@@ -19,19 +19,19 @@ jobs:
       matrix:
         include:
           # macOS Intel
-          - os: macos-14
-            arch: x86_64
-            qt_arch: clang_64
-            min_os: "10.15"
-          # macOS Apple Silicon
-          - os: macos-14
-            arch: arm64
-            qt_arch: clang_64
-            min_os: "11.0"
+          # - os: macos-14
+          #   arch: x86_64
+          #   qt_arch: clang_64
+          #   min_os: "10.15"
+          # # macOS Apple Silicon
+          # - os: macos-14
+          #   arch: arm64
+          #   qt_arch: clang_64
+          #   min_os: "11.0"
           # Windows
-          # - os: windows-latest
-          #   arch: x64
-          #   qt_arch: msvc2019_64
+          - os: windows-latest
+            arch: x64
+            qt_arch: msvc2019_64
           # # Linux
           # - os: ubuntu-24.04 # Explizite Version statt latest für Vorhersehbarkeit
           #   arch: x86_64
@@ -53,9 +53,9 @@ jobs:
       #     sudo apt-get update
       #     sudo apt-get install -y libxcb-xinerama0 libgl1-mesa-dev libxkbcommon-x11-0 libxcb-cursor0 libxcb-icccm4-dev libxcb-image0-dev libxcb-keysyms1-dev libxcb-render-util0-dev libxcb-shape0-dev
 
-      - name: Set macOS Deployment Target
-        if: runner.os == 'macOS'
-        run: echo "MACOSX_DEPLOYMENT_TARGET=${{ matrix.min_os }}" >> $GITHUB_ENV
+      # - name: Set macOS Deployment Target
+      #   if: runner.os == 'macOS'
+      #   run: echo "MACOSX_DEPLOYMENT_TARGET=${{ matrix.min_os }}" >> $GITHUB_ENV
 
       - name: Configure & Build
         shell: bash
@@ -65,28 +65,28 @@ jobs:
             ${{ runner.os == 'macOS' && format('-DCMAKE_OSX_ARCHITECTURES={0}', matrix.arch) || '' }}
           cmake --build build --config Release --parallel
 
-      # - name: Package Windows
-      #   if: runner.os == 'Windows'
-      #   shell: pwsh
-      #   run: |
-      #     # Prüfe wo die .exe wirklich liegt (oft direkt in build/ oder build/src/)
-      #     $EXE_PATH=$(Get-ChildItem -Path build -Filter appAcoustic_Calculator.exe -Recurse | Select-Object -ExpandProperty FullName)
-      #     windeployqt $EXE_PATH --dir build/dist --qmldir src/UI/
-      #     Compress-Archive -Path build/dist/* -DestinationPath build/Acoustic_Calculator_Windows.zip
-
-      - name: Package MacOS
-        if: runner.os == 'macOS'
+      - name: Package Windows
+        if: runner.os == 'Windows'
+        shell: pwsh
         run: |
-          APP_BUNDLE=$(find build -name "*.app" -type d | head -n 1)
-          echo "Gefundenes Bundle: $APP_BUNDLE"
-          macdeployqt "$APP_BUNDLE" -qmldir=src/UI/ -verbose=1 -no-plugins
+          # Prüfe wo die .exe wirklich liegt (oft direkt in build/ oder build/src/)
+          $EXE_PATH=$(Get-ChildItem -Path build -Filter appAcoustic_Calculator.exe -Recurse | Select-Object -ExpandProperty FullName)
+          windeployqt $EXE_PATH --dir build/dist --qmldir src/UI/
+          Compress-Archive -Path build/dist/* -DestinationPath build/Acoustic_Calculator_Windows.zip
 
-          sleep 5
-          # Create .dmg file
-          hdiutil create -volname "AcousticCalculator" -srcfolder "$APP_BUNDLE" -ov -format UDZO "${{ github.workspace }}/Acoustic_Calculator-MacOS-${{ matrix.arch }}.dmg"          
-          # move everything to build folder
-          mkdir -p build/
-          mv *.dmg build/
+      # - name: Package MacOS
+      #   if: runner.os == 'macOS'
+      #   run: |
+      #     APP_BUNDLE=$(find build -name "*.app" -type d | head -n 1)
+      #     echo "Gefundenes Bundle: $APP_BUNDLE"
+      #     macdeployqt "$APP_BUNDLE" -qmldir=src/UI/ -verbose=1 -no-plugins
+
+      #     sleep 5
+      #     # Create .dmg file
+      #     hdiutil create -volname "AcousticCalculator" -srcfolder "$APP_BUNDLE" -ov -format UDZO "${{ github.workspace }}/Acoustic_Calculator-MacOS-${{ matrix.arch }}.dmg"          
+      #     # move everything to build folder
+      #     mkdir -p build/
+      #     mv *.dmg build/
 
       # - name: Package Linux
       #   if: runner.os == 'Linux'
