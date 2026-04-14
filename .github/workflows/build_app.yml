@@ -85,8 +85,8 @@ jobs:
           # Create .dmg file
           hdiutil create -volname "AcousticCalculator" -srcfolder "$APP_BUNDLE" -ov -format UDZO "${{ github.workspace }}/Acoustic_Calculator-MacOS-${{ matrix.arch }}.dmg"          
           # move everything to build folder
-          # mkdir -p build/
-          # mv *.dmg build/
+          mkdir -p build/
+          mv *.dmg build/
 
       # - name: Package Linux
       #   if: runner.os == 'Linux'
