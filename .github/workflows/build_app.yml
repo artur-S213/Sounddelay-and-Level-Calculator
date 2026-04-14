@@ -1,4 +1,5 @@
 name: Multi-Platform Qt Build
+run-name: Release ${{ github.ref_name }}
 
 on:
   push:
@@ -73,11 +74,25 @@ jobs:
       - name: Package MacOS
         if: runner.os == 'macOS'
         run: |
-          # Suche das .app Bundle dynamisch
-          APP_BUNDLE=$(find build -name "*.app" | head -n 1)
-          macdeployqt "$APP_BUNDLE" -dmg -qmldir=src/UI/
-          mv build/**/*.dmg build/Acoustic_Calculator-MacOS-${{ matrix.arch }}.dmg || mv *.dmg build/Acoustic_Calculator-MacOS-${{ matrix.arch }}.dmg
+          # 1. Suche das .app Bundle
+          APP_BUNDLE=$(find build -name "*.app" -type d | head -n 1)
+          echo "Gefundenes Bundle: $APP_BUNDLE"
 
+          # 2. Deployment ausführen
+          # -executable zeigt auf das eigentliche Binary im Bundle
+          # -no-plugins verhindert, dass er nach fehlenden SQL-Treibern sucht
+          # Falls du Plugins brauchst, lass -no-plugins weg.
+          macdeployqt "$APP_BUNDLE" -qmldir=src/UI/ -verbose=1 -no-plugins
+
+          sleep 5
+
+          # 4. DMG manuell erstellen (stabiler als der interne macdeployqt DMG-Befehl)
+          hdiutil create -volname "AcousticCalculator" -srcfolder "$APP_BUNDLE" -ov -format UDZO "Acoustic_Calculator-MacOS-${{ matrix.arch }}.dmg"
+          
+          # 5. Verschiebe das DMG in den build Ordner für den Upload-Step
+          mkdir -p build/artifacts
+          mv *.dmg build/artifacts/
+          
       # - name: Package Linux
       #   if: runner.os == 'Linux'
       #   run: |
