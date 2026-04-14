@@ -90,8 +90,8 @@ jobs:
           hdiutil create -volname "AcousticCalculator" -srcfolder "$APP_BUNDLE" -ov -format UDZO "Acoustic_Calculator-MacOS-${{ matrix.arch }}.dmg"
           
           # 5. Verschiebe das DMG in den build Ordner für den Upload-Step
-          mkdir -p build/artifacts
-          mv *.dmg build/artifacts/
+          mkdir -p build/
+          mv *.dmg build/
 
       # - name: Package Linux
       #   if: runner.os == 'Linux'
