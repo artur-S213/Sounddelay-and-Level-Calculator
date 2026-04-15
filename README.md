@@ -8,15 +8,10 @@
   <img src="icons/icon.png" width="128" alt="Sdalcal Logo">
 </p>
 
-<p align="center" style="font-size: 5em; border-bottom: none;">
+<h1 align="center" style="font-size: 5em; border-bottom: none;">
   <strong>Sdalcal</strong>
-</p>
+</h1>
 
-<p align="center">
-  Sounddelay-and-Level-Calculator
-</p>
-
-<hr>
 <!-- # Sounddelay-and-Level-Calculator -->
 
 Sdalcal stands for "Sounddelay-and-Level-Calculator" and calculates the sounddelay between two louspeaker positions with a given distance and the soundlevel for the second loudspeakers.
