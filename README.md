@@ -1,7 +1,7 @@
 
 <h1 style="display: flex; align-items: center; border-bottom: none;">
   <img src="icons/icon.png" width="120" style="margin-right: 10px; vertical-align: middle;">
-  <span>Sdalcal</span>
+  <span style="vertical-align: middle;">Sdalcal</span>
 </h1>
 <hr>
 
