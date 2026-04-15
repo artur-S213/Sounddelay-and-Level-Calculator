@@ -2,12 +2,14 @@
 <!-- <h1 style="display: flex; align-items: center; border-bottom: none;">
   <img src="icons/icon.png" width="120" style="margin-right: 10px; vertical-align: middle;">
   <span style="vertical-align: middle;">Sdalcal</span>
-</h1>
-<hr> -->
+</h1>-->
 
-| <img src="icons/icon.png" width="120" valign="middle"> **Sdalcal** |
-| :--- |
-
+<!-- <img src="icons/icon.png" width="120" valign="middle">  **Sdalcal** -->
+<div style="display: flex; align-items: center; gap: 15px;">
+  <img src="icons/icon.png" width="120">
+  <h1 style="border-bottom: none; margin: 0; font-size: 40px;">Sdalcal</h1>
+</div>
+<hr>
 <!-- # Sounddelay-and-Level-Calculator -->
 
 Sdalcal stands for "Sounddelay-and-Level-Calculator" and calculates the sounddelay between two louspeaker positions with a given distance and the soundlevel for the second loudspeakers.
