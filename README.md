@@ -8,7 +8,7 @@
   <img src="icons/icon.png" width="128" alt="Sdalcal Logo">
 </p>
 
-<p align="center" style="font-size: 3em; border-bottom: none;">
+<p align="center" style="font-size: 5em; border-bottom: none;">
   <strong>Sdalcal</strong>
 </p>
 
