@@ -1,11 +1,12 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include "controller.h"
-// #include "CoreCalculations.h"
+// #include <QIcon>  // show icon at the upper left window corner
 
 int main(int argc, char *argv[])
 {
   QGuiApplication app(argc, argv);
+  // app.setWindowIcon(QIcon(":/icons/icon.png"));
 
   QQmlApplicationEngine engine;
   QObject::connect(

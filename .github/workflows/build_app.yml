@@ -91,7 +91,7 @@ jobs:
           & $WIND_PATH --dir dist --qmldir src/UI/ --no-translations --compiler-runtime $TARGET_EXE
           
           # Zippen für das Release
-          Compress-Archive -Path dist/* -DestinationPath build/Acoustic_Calculator_Windows.zip
+          Compress-Archive -Path dist/* -DestinationPath build/Acoustic_Calculator_Windows(x86_64).zip
 
       - name: Package MacOS
         if: runner.os == 'macOS'
@@ -104,7 +104,7 @@ jobs:
           macdeployqt "$APP_BUNDLE" -qmldir=src/UI/ -verbose=1 -no-plugins -dmg
           sleep 5
           # Move .dmg file into build folder
-          mv inst/*.dmg build/Acoustic_Calculator-MacOS-${{ matrix.arch }}.dmg
+          mv inst/*.dmg build/Acoustic_Calculator_MacOS_${{ matrix.arch }}.dmg
 
       # - name: Package Linux
       #   if: runner.os == 'Linux'
