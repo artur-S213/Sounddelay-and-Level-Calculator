@@ -6,8 +6,8 @@
 
 <!-- <img src="icons/icon.png" width="120" valign="middle">  **Sdalcal** -->
 <div style="display: flex; align-items: center; gap: 15px;">
-  <img src="icons/icon.png" width="120">
-  <h1 style="border-bottom: none; margin: 0; font-size: 40px;">Sdalcal</h1>
+  <img src="icons/icon.png" width="120" alt="Logo">
+  <span style="font-size: 2.5em; font-weight: bold;">Sdalcal</span>
 </div>
 <hr>
 <!-- # Sounddelay-and-Level-Calculator -->
