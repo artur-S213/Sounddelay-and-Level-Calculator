@@ -22,7 +22,7 @@ add_subdirectory(tests)
 
 set(ICON_SOURCES "")
 # --- CPack Configuration ---
-set(CPACK_PACKAGE_NAME ${PROJECT_NAME}")
+set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
 set(CPACK_PACKAGE_VENDOR "Artur")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "A calculator to get the sounddelay between two louspeaker positions with a given distance and the soundlevel of the second loudspeakers.")
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
