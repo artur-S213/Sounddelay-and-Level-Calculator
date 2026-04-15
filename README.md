@@ -8,9 +8,9 @@
   <img src="icons/icon.png" width="128" alt="Sdalcal Logo">
 </p>
 
-<h1 align="center" style="font-size: 3em; border-bottom: none;">
-  Sdalcal
-</h1>
+<p align="center" style="font-size: 3em; border-bottom: none;">
+  <strong>Sdalcal</strong>
+</p>
 
 <p align="center">
   Sounddelay-and-Level-Calculator
