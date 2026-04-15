@@ -91,7 +91,7 @@ jobs:
           & $WIND_PATH --dir dist --qmldir src/UI/ --no-translations --compiler-runtime $TARGET_EXE
           
           # Zippen für das Release
-          Compress-Archive -Path dist/* -DestinationPath build/Acoustic_Calculator_Windows(x86_64).zip
+          Compress-Archive -Path dist/* -DestinationPath build/Acoustic_Calculator_Windows_x86_64.zip
 
       - name: Package MacOS
         if: runner.os == 'macOS'
