@@ -4,11 +4,18 @@
   <span style="vertical-align: middle;">Sdalcal</span>
 </h1>-->
 
-<!-- <img src="icons/icon.png" width="120" valign="middle">  **Sdalcal** -->
-<div style="display: flex; align-items: center; gap: 15px;">
-  <img src="icons/icon.png" width="120" alt="Logo">
-  <span style="font-size: 2.5em; font-weight: bold;">Sdalcal</span>
-</div>
+<p align="center">
+  <img src="icons/icon.png" width="128" alt="Sdalcal Logo">
+</p>
+
+<h1 align="center" style="font-size: 3em; border-bottom: none;">
+  Sdalcal
+</h1>
+
+<p align="center">
+  Sounddelay-and-Level-Calculator
+</p>
+
 <hr>
 <!-- # Sounddelay-and-Level-Calculator -->
 
