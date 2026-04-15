@@ -33,9 +33,9 @@ jobs:
             arch: x64
             qt_arch: win64_msvc2022_64
           # # Linux
-          # - os: ubuntu-24.04 # Explizite Version statt latest für Vorhersehbarkeit
-          #   arch: x86_64
-          #   qt_arch: gcc_64
+          - os: ubuntu-24.04 
+            arch: x86_64
+            qt_arch: gcc_64
 
     steps:
       - name: Checkout Code
