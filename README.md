@@ -1,8 +1,13 @@
-# Sounddelay-and-Level-Calculator
 
-A calculator to get the sounddelay between two louspeaker positions with a given distance and the soundlevel of the second loudspeakers.
+<div align="left" style="display: flex; align-items: center;">
+  <img src="icons/icon.png" width="120" style="margin-right: 12px;">
+  <span style="font-size: 2em; font-weight: bold;">Sdalcal</span>
+</div>
+<h1></h1>
 
-Sdalcal
+<!-- # Sounddelay-and-Level-Calculator -->
+
+Sdalcal stands for "Sounddelay-and-Level-Calculator" and calculates the sounddelay between two louspeaker positions with a given distance and the soundlevel for the second loudspeakers.
 
 ![App Preview](docs/app_preview.png)
 
