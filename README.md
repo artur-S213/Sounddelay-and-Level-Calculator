@@ -1,9 +1,12 @@
 
-<h1 style="display: flex; align-items: center; border-bottom: none;">
+<!-- <h1 style="display: flex; align-items: center; border-bottom: none;">
   <img src="icons/icon.png" width="120" style="margin-right: 10px; vertical-align: middle;">
   <span style="vertical-align: middle;">Sdalcal</span>
 </h1>
-<hr>
+<hr> -->
+
+| <img src="icons/icon.png" width="120" valign="middle"> **Sdalcal** |
+| :--- |
 
 <!-- # Sounddelay-and-Level-Calculator -->
 
