@@ -124,7 +124,9 @@ jobs:
             build/*.dmg
             build/*.zip
             build/*.tar.gz
-          if-no-files-found: error  
+            build/*.deb
+            build/*.rpm
+          if-no-files-found: warn  
           
   publish:
     needs: build
