@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(Acoustic_Calculator VERSION 0.1 LANGUAGES CXX)
+project(Sdalcal VERSION 0.1 LANGUAGES CXX)
 if(POLICY QTP0001)
     qt_policy(SET QTP0001 NEW)
 endif()
@@ -21,10 +21,14 @@ add_subdirectory(tests)
 
 
 set(ICON_SOURCES "")
+# --- CPack Configuration ---
+set(CPACK_PACKAGE_NAME "acoustic-calculator")
+set(CPACK_PACKAGE_VENDOR "DeinName")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Ein Taschenrechner für Akustik-Parameter")
+set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 
 if(WIN32)
-    # Unter Windows muss das Icon über eine Ressourcen-Datei (.rc) definiert werden
-    # Erstelle eine temporäre .rc Datei oder lege eine im Projekt an:
+    # Create .rc file
     set(RES_FILE "${CMAKE_CURRENT_BINARY_DIR}/resources.rc")
     file(WRITE "${RES_FILE}" "IDI_ICON1 ICON DISCARDABLE \"${CMAKE_CURRENT_SOURCE_DIR}/icons/icon.ico\"")
     list(APPEND ICON_SOURCES "${RES_FILE}")
@@ -38,9 +42,16 @@ elseif(APPLE)
     list(APPEND ICON_SOURCES "${APP_ICON_FILE}")
 
 elseif(UNIX AND NOT APPLE)
-    # Unter Linux wird das Icon meist über .desktop Files oder direkt im Code gesetzt
-    # Hier fügen wir es oft als Qt-Ressource hinzu (siehe Schritt 3)
+    set(CPACK_GENERATOR "DEB;RPM")
+    set(CPACK_DEBIAN_PACKAGE_MAINTAINER "deine-email@beispiel.de")
+    set(CPACK_DEBIAN_PACKAGE_SECTION "utils")
+    set(CPACK_DEBIAN_PACKAGE_DEPENDS "libqt6quick6, libqt6widgets6") # Wichtige Abhängigkeiten
+    
+    set(CPACK_RPM_PACKAGE_LICENSE "GPLv3") 
+    set(CPACK_RPM_PACKAGE_GROUP "Applications/Utils")
 endif()
+
+include(CPack)
 
 
 set_target_properties(app PROPERTIES
