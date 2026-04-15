@@ -92,20 +92,31 @@ jobs:
           & $WIND_PATH --dir dist --qmldir src/UI/ --no-translations --compiler-runtime $TARGET_EXE
           
           # Zippen für das Release
-          Compress-Archive -Path dist/* -DestinationPath build/Acoustic_Calculator_Windows_x86_64.zip
+          Compress-Archive -Path dist/* -DestinationPath build/Sdalcal_win_x86_64.zip
 
       - name: Package MacOS
         if: runner.os == 'macOS'
         run: |
           # Suche das .app Bundle im Installations-Verzeichnis
           APP_BUNDLE=$(find inst -name "*.app" -type d | head -n 1)
-          echo "Gefundenes Bundle: $APP_BUNDLE"
+          echo "Found Bundle: $APP_BUNDLE"
           
           # Deployment
-          macdeployqt "$APP_BUNDLE" -qmldir=src/UI/ -verbose=1 -no-plugins -dmg
+          macdeployqt "$APP_BUNDLE" -qmldir=src/UI/ -verbose=1 -no-plugins
           sleep 5
-          # Move .dmg file into build folder
-          mv inst/*.dmg build/Acoustic_Calculator_MacOS_${{ matrix.arch }}.dmg
+
+          echo "Ad-hoc signing app"
+          codesign --force --deep --sign - "$APP_BUNDLE"
+          
+          echo "Create DMG-Image..."
+          hdiutil create -volname "Sdalcal" -srcfolder "$APP_BUNDLE" -ov -format UDZO "Sdalcal_MacOS_${{ matrix.arch }}.dmg"
+          
+          # Move .dmg file to the build folder
+          mkdir -p build
+          mv *.dmg build/
+
+          # # Move .dmg file into build folder
+          # mv inst/*.dmg build/Acoustic_Calculator_MacOS_${{ matrix.arch }}.dmg
 
       - name: Package Linux
         if: runner.os == 'Linux'

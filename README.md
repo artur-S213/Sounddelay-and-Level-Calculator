@@ -1,9 +1,9 @@
 
-<div align="left" style="display: flex; align-items: center;">
-  <img src="icons/icon.png" width="120" style="margin-right: 12px;">
-  <span style="font-size: 2em; font-weight: bold;">Sdalcal</span>
-</div>
-<h1></h1>
+<h1 style="display: flex; align-items: center; border-bottom: none;">
+  <img src="icons/icon.png" width="120" style="margin-right: 10px; vertical-align: middle;">
+  <span>Sdalcal</span>
+</h1>
+<hr>
 
 <!-- # Sounddelay-and-Level-Calculator -->
 

@@ -22,9 +22,9 @@ add_subdirectory(tests)
 
 set(ICON_SOURCES "")
 # --- CPack Configuration ---
-set(CPACK_PACKAGE_NAME "acoustic-calculator")
-set(CPACK_PACKAGE_VENDOR "DeinName")
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Ein Taschenrechner für Akustik-Parameter")
+set(CPACK_PACKAGE_NAME "sdalcal")
+set(CPACK_PACKAGE_VENDOR "Artur")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "A calculator to get the sounddelay between two louspeaker positions with a given distance and the soundlevel of the second loudspeakers.")
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 
 if(WIN32)
@@ -53,9 +53,10 @@ endif()
 
 include(CPack)
 
-
 set_target_properties(app PROPERTIES
-    MACOSX_BUNDLE_GUI_IDENTIFIER com.yourdomain.acoustic-calculator
+    MACOSX_BUNDLE_BUNDLE_NAME "Sdalcal"
+    MACOSX_BUNDLE_EXECUTABLE_NAME "Sdalcal"
+    MACOSX_BUNDLE_GUI_IDENTIFIER com.artur_s213.sdalcal
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE TRUE
