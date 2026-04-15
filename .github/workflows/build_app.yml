@@ -116,7 +116,7 @@ jobs:
           mv *.dmg build/
 
           # # Move .dmg file into build folder
-          # mv inst/*.dmg build/Acoustic_Calculator_MacOS_${{ matrix.arch }}.dmg
+          # mv inst/*.dmg build/Sdalcal_MacOS_${{ matrix.arch }}.dmg
 
       - name: Package Linux
         if: runner.os == 'Linux'

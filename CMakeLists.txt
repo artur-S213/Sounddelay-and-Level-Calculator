@@ -22,7 +22,7 @@ add_subdirectory(tests)
 
 set(ICON_SOURCES "")
 # --- CPack Configuration ---
-set(CPACK_PACKAGE_NAME "sdalcal")
+set(CPACK_PACKAGE_NAME ${PROJECT_NAME}")
 set(CPACK_PACKAGE_VENDOR "Artur")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "A calculator to get the sounddelay between two louspeaker positions with a given distance and the soundlevel of the second loudspeakers.")
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
@@ -43,7 +43,7 @@ elseif(APPLE)
 
 elseif(UNIX AND NOT APPLE)
     set(CPACK_GENERATOR "DEB;RPM")
-    set(CPACK_DEBIAN_PACKAGE_MAINTAINER "deine-email@beispiel.de")
+    set(CPACK_DEBIAN_PACKAGE_MAINTAINER "arthur.scheling@gmail.com")
     set(CPACK_DEBIAN_PACKAGE_SECTION "utils")
     set(CPACK_DEBIAN_PACKAGE_DEPENDS "libqt6quick6, libqt6widgets6") # Wichtige Abhängigkeiten
     
