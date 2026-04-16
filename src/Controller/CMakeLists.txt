@@ -1,8 +1,8 @@
-qt_add_executable(app
+qt_add_executable(Sdalcal
     main.cpp
 )
 
-target_link_libraries(app
+target_link_libraries(Sdalcal
     PRIVATE
         Qt6::Quick
         Qt6::Core
