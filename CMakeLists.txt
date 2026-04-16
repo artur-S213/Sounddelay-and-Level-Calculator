@@ -69,3 +69,46 @@ install(TARGETS app
     RUNTIME DESTINATION .  # Für Windows (.exe)
     LIBRARY DESTINATION .  # Für Linux/Unix (.so)
 )
+
+
+# # --- Installation ---
+
+# # 1. Die Haupt-Binary (app) installieren
+# install(TARGETS app
+#     RUNTIME DESTINATION bin
+# )
+
+# # 2. Die Module (.so Dateien) installieren
+# # Da du Bibliotheken wie AcousticCore, UIModule etc. hast:
+# install(TARGETS AcousticCore ControllerModule UIModule
+#     LIBRARY DESTINATION lib
+#     ARCHIVE DESTINATION lib
+# )
+
+# # 3. QML-Module kopieren (Wichtig für Qt6!)
+# # Kopiert den generierten QML-Ordner aus dem Build-Verzeichnis ins System
+# install(DIRECTORY ${CMAKE_BINARY_DIR}/qml/
+#     DESTINATION lib/Sdalcal/qml
+# )
+
+# # --- CPack Konfiguration ---
+
+# set(CPACK_PACKAGE_NAME "Sdalcal")
+# set(CPACK_PACKAGE_VENDOR "Artur")
+# set(CPACK_PACKAGE_VERSION "1.0.0")
+# set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Sounddelay and Level Calculator")
+# set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSE") # Falls vorhanden
+
+# # Paket-Generatoren
+# set(CPACK_GENERATOR "DEB;RPM")
+
+# # Debian Spezifisch
+# set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Artur <deine@email.de>")
+# set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6, libqt6core6, libqt6gui6, libqt6qml6, libqt6quick6")
+# set(CPACK_DEBIAN_PACKAGE_SECTION "utils")
+
+# # RPM Spezifisch
+# set(CPACK_RPM_PACKAGE_LICENSE "GPLv3")
+# set(CPACK_RPM_PACKAGE_GROUP "Applications/Engineering")
+
+# include(CPack)
