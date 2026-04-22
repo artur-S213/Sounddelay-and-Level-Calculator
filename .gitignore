@@ -4,6 +4,8 @@ build/
 printFiles.sh
 release-script.sh
 
+build-slint.yml
+
 # Prerequisites
 *.d
 
