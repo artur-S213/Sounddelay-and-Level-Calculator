@@ -1,0 +1,41 @@
+import { HorizontalBox } from "std-widgets.slint";
+export component Parameter-Tile inherits Rectangle {
+    in-out property <bool> input: false;
+    in property <color> color-tile: white;
+    in property <string> title: "Title";
+    in property <float> value: 0.00;
+
+    width: 165px;
+    height: 70px;
+    border-radius: 16px;
+    background: color-tile;
+
+    
+    VerticalLayout { 
+        padding: 10px;
+        spacing: 2px; 
+        HorizontalLayout {
+            alignment: center;
+            Text {
+                text: root.title;
+                font-size: 13px;
+                font-family: "Inter";
+            }
+        }
+        HorizontalLayout {
+            alignment: center;
+            if (!root.input) : Text {
+                text: root.value.to-fixed(2);
+                font-size: 16px;
+                font-family: "Inter";
+            }
+            
+            if (root.input) : TextInput {
+                text: "1.00";
+                font-size: 15px;
+                font-weight: 800;
+                font-family: "Inter";
+            }
+        }
+    }
+}

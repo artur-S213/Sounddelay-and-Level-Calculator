@@ -1,17 +1,62 @@
-import { Button, VerticalBox } from "std-widgets.slint";
+import { Button, VerticalBox, HorizontalBox } from "std-widgets.slint";
+import { Parameter-Tile } from "parameter-tile.slint";
 
 export component AppWindow inherits Window {
     in-out property<int> counter: 42;
     callback request-increase-value();
-    VerticalBox {
-        Text {
-            text: "Counter: \{root.counter}";
-        }
-        Button {
-            text: "Increase value";
-            clicked => {
-                root.request-increase-value();
+    
+    width: 1205px;
+    height: 100px;
+    background: #ffffff;
+
+    VerticalLayout {
+        alignment: center;
+        HorizontalBox {
+            width: root.width;
+            spacing: 5px;
+            Parameter-Tile {
+                title: "Eingabe in m";
+                input: true;
+                color-tile: #ffcda1;
             }
+            Parameter-Tile {
+                title: "Verzögerung in ms";
+                color-tile: #ffecc1;
+            }
+            Parameter-Tile {
+                title: "Schallpegel L1 in db";
+                input: true;
+                color-tile: #bee3f8;
+            }
+            Parameter-Tile {
+                title: "Schallpegel L2 in db";
+                color-tile: #bee3f8;
+            }
+            Parameter-Tile {
+                title: "Einstellungspegel in -db";
+                color-tile: #cbfeff;
+            }
+            Parameter-Tile {
+                title: "Abfallpegel in -db";
+                color-tile: #adffe1;
+            }
+            Parameter-Tile {
+                title: "Sollwertpegel in db";
+                color-tile: #6dff8f;
+            }
+    
         }
-     }
+    }
+
+    // VerticalBox {
+    //     Text {
+    //         text: "Counter: \{root.counter}";
+    //     }
+    //     Button {
+    //         text: "Increase value";
+    //         clicked => {
+    //             root.request-increase-value();
+    //         }
+    //     }
+    //  }
 }
