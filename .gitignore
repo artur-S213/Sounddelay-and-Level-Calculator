@@ -1,16 +1,5 @@
-# specific own files
-*.xlsx
-build/
-printFiles.sh
-release-script.sh
-
-build-slint.yml
-
 # Prerequisites
 *.d
-
-# Qt Project Files
-.qtcreator/
 
 # Compiled Object files
 *.slo
@@ -21,12 +10,6 @@ build-slint.yml
 # Precompiled Headers
 *.gch
 *.pch
-
-# Linker files
-*.ilk
-
-# Debugger Files
-*.pdb
 
 # Compiled Dynamic libraries
 *.so
@@ -48,5 +31,8 @@ build-slint.yml
 *.out
 *.app
 
-# debug information files
-*.dwo
+# clangd cache
+.cache
+
+# CMake build directory
+build

@@ -14,6 +14,8 @@
 
 <!-- # Sounddelay-and-Level-Calculator -->
 
+![Status: In Development](https://img.shields.io/badge/Status-in%20Development-orange)
+
 Sdalcal stands for "Sounddelay-and-Level-Calculator" and calculates the sounddelay between two louspeaker positions with a given distance and the soundlevel for the second loudspeakers.
 
 ![App Preview](docs/app_preview.png)
