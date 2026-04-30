@@ -32,59 +32,56 @@ Hint:
 
 ## Project Requirements
 
-This Project was created with the Open-Source-Version of Qt (Version 6.10.1).
+This Project was created with the Slint GUI Framework.
+For this project you need:
 
-- Download Qt: <https://www.qt.io/development/download-open-source>
-- Qt Version: 6.10.1
-- Qt Creator Version. 19.0.0
-- Cmake Version: 3.30.5
-- Ninja Version: 1.12.1
+- C++ compiler that supports (at least) C++20
+- cmake version 3.21 or newer
+
+
+Checkout the documentation of slint framework: \
+https://docs.slint.dev/latest/docs/cpp/
 
 #### Install Build Essentials
 
 For Debian, Ubuntu, Mint:
 
 ```bash
+# Install dependencies
 sudo apt update && sudo apt install -y \
-build-essential \
-cmake \
-libgl1-mesa-dev \
-libglu1-mesa-dev \
-libfontconfig1-dev \
-libx11-xcb-dev \
-libxcb-xinerama0-dev \
-libxcb-cursor-dev \
-libxcb-shape0-dev \
-libxcb-xfixes0-dev \
-libxcb-render-util0-dev \
-libxcb-icccm4-dev \
-libxcb-keysyms1-dev \
-libxcb-image0-dev \
-libssl-dev \
-libxkbcommon-dev \
-libxkbcommon-x11-dev \
-libasound2-dev \
-libpulse-dev
+    build-essential \
+    git \
+    cmake \
+    curl \
+    pkg-config \
+    libfontconfig1-dev \
+    libx11-dev \
+    libxkbcommon-dev \
+    libgl1-mesa-dev \
+    libegl1-mesa-dev \
+    libwayland-dev
+
+# Install Rust Toolchain
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 ```
 
 For Fedora:
 
 ```bash
-sudo dnf groupinstall "Development Tools" "C Development Tools and Libraries" && \
+# Install dependencies
 sudo dnf install -y \
-cmake \
-mesa-libGL-devel \
-mesa-libGLU-devel \
-fontconfig-devel \
-libxcb-devel \
-xcb-util-devel \
-xcb-util-image-devel \
-xcb-util-keysyms-devel \
-xcb-util-renderutil-devel \
-xcb-util-wm-devel \
-libxkbcommon-devel \
-libxkbcommon-x11-devel \
-openssl-devel \
-alsa-lib-devel \
-pulseaudio-libs-devel
+    git \
+    gcc-c++ \
+    cmake \
+    curl \
+    pkg-config \
+    fontconfig-devel \
+    libX11-devel \
+    libxkbcommon-devel \
+    mesa-libGL-devel \
+    mesa-libEGL-devel \
+    wayland-devel
+
+# Install Rust Toolchain
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 ```

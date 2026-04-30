@@ -1,62 +1,68 @@
-import { Button, VerticalBox, HorizontalBox } from "std-widgets.slint";
+import { Button, VerticalBox, HorizontalBox  } from "std-widgets.slint";
 import { Parameter-Tile } from "parameter-tile.slint";
 
+
 export component AppWindow inherits Window {
-    in-out property<int> counter: 42;
-    callback request-increase-value();
+    in-out property <float> distance-meter <=> distance-tile.value;
+    in-out property <float> speakerL1 <=> levelL1-tile.value;
+
+    in-out property <float> delay <=> delay-tile.value;
+    in-out property <float> speakerL2 <=> levelL2-tile.value;
+    in-out property <float> adjustmentLevel <=> adjustmentLevel-tile.value;
+    in-out property <float> dropLevel <=> dropLevel-tile.value;
+    in-out property <float> setpoint <=> setpoint-tile.value;
     
+    callback parameter-changed(float, float);
+
     width: 1205px;
     height: 100px;
     background: #ffffff;
 
     VerticalLayout {
         alignment: center;
+        vertical-stretch: 1;
         HorizontalBox {
+            horizontal-stretch: 1;
             width: root.width;
             spacing: 5px;
-            Parameter-Tile {
+            
+            distance-tile := Parameter-Tile {
                 title: "Eingabe in m";
                 input: true;
                 color-tile: #ffcda1;
+                accepted(val) => {
+                    root.parameter-changed(val, speakerL1);
+                }
             }
-            Parameter-Tile {
+            delay-tile := Parameter-Tile {
                 title: "Verzögerung in ms";
                 color-tile: #ffecc1;
             }
-            Parameter-Tile {
+            levelL1-tile := Parameter-Tile {
                 title: "Schallpegel L1 in db";
                 input: true;
                 color-tile: #bee3f8;
+                accepted(val) => {
+                    root.parameter-changed(distance-meter, val);
+                }
             }
-            Parameter-Tile {
+            levelL2-tile := Parameter-Tile {
                 title: "Schallpegel L2 in db";
                 color-tile: #bee3f8;
             }
-            Parameter-Tile {
+            adjustmentLevel-tile := Parameter-Tile {
                 title: "Einstellungspegel in -db";
                 color-tile: #cbfeff;
             }
-            Parameter-Tile {
+            dropLevel-tile := Parameter-Tile {
                 title: "Abfallpegel in -db";
                 color-tile: #adffe1;
             }
-            Parameter-Tile {
+            setpoint-tile := Parameter-Tile {
                 title: "Sollwertpegel in db";
                 color-tile: #6dff8f;
             }
     
         }
     }
-
-    // VerticalBox {
-    //     Text {
-    //         text: "Counter: \{root.counter}";
-    //     }
-    //     Button {
-    //         text: "Increase value";
-    //         clicked => {
-    //             root.request-increase-value();
-    //         }
-    //     }
-    //  }
 }

@@ -3,7 +3,9 @@ export component Parameter-Tile inherits Rectangle {
     in-out property <bool> input: false;
     in property <color> color-tile: white;
     in property <string> title: "Title";
-    in property <float> value: 0.00;
+    in-out property <float> value: 0.00;
+
+    callback accepted(float);
 
     width: 165px;
     height: 70px;
@@ -35,6 +37,11 @@ export component Parameter-Tile inherits Rectangle {
                 font-size: 15px;
                 font-weight: 800;
                 font-family: "Inter";
+                accepted => {
+                    root.accepted(self.text.to-float());
+                    root.value = self.text.to-float();
+                }
+
             }
         }
     }
