@@ -1,4 +1,4 @@
-target_sources(Sdalcal 
+target_sources(Sdalcal PRIVATE
     controller.cpp
     controller.h
 )

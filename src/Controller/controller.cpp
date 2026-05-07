@@ -1,12 +1,14 @@
 #include "app-window.h"
-#include "CoreCalculations.h"
+#include "controller.h"
+#include "SdalcalCore.h"
 
 SdalcalController::SdalcalController(AppWindow* ui){
-    this.m_ui = ui;
+    this->m_ui = ui;
+    // TODO: implement Controller for UI Event (Callbacks) 
 }
 
-SdalcalController::handleInputChange(float distance, float levelL1){
-    auto result = CoreCalculations::calculateAllValues(distance, levelL1);
-    
+
+void SdalcalController::handleInputChange(float distance, float levelL1){
+    auto result = SdalcalCore::calculateAllValues(distance, levelL1);
 
 }

@@ -13,6 +13,6 @@ class SdalcalController {
         SdalcalController(AppWindow* ui);
     
 
-}
+};
 
 #endif
