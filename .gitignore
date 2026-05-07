@@ -37,5 +37,8 @@
 # CMake build directory
 build
 
+# Jetbrains files
+.idea
+
 # Bash scripts
 project_info.sh
