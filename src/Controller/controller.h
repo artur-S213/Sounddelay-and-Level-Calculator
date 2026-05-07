@@ -3,14 +3,14 @@
 
 #include "app-window.h"
 
-class Sdalcal_Controller {
+class SdalcalController {
     private:
         AppWindow* m_ui;
 
         void handleInputChange(float distance, float levelL1);
 
     public:
-        Sdalcal_Controller(AppWindow* ui);
+        SdalcalController(AppWindow* ui);
     
 
 }

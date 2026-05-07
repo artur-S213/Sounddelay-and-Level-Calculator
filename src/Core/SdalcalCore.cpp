@@ -1,10 +1,10 @@
-#include "CoreCalculations.h"
+#include "SdalcalCore.h"
 #include <math.h>
 #include <cmath>
 
-AcousticCalcResults CoreCalculations::calculateAllValues(float distance, float soundLevel)
+SdalcalCoreResults SdalcalCore::calculateAllValues(float distance, float soundLevel)
 {
-    AcousticCalcResults res;
+    SdalcalCoreResults res;
 
     // Delay = distance/343 *1000
     res.delay = (distance / 343) * 1000;

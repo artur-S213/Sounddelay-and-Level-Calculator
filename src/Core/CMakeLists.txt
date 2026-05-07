@@ -1,6 +1,6 @@
 add_library(SdalcalCore STATIC
-    CoreCalculations.cpp
-    CoreCalculations.h
+    SdalcalCore.cpp
+    SdalcalCore.h
 )
 
 target_include_directories(SdalcalCore INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
