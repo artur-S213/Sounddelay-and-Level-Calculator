@@ -16,10 +16,9 @@ if (NOT Slint_FOUND)
   FetchContent_MakeAvailable(Slint)
 endif (NOT Slint_FOUND)
 
-add_executable(Sdalcal src/main.cpp)
-target_link_libraries(Sdalcal PRIVATE Slint::Slint)
-slint_target_sources(Sdalcal ui/app-window.slint)
+add_subdirectory(src)
+
 # On Windows, copy the Slint DLL next to the application binary so that it's found.
 if (WIN32)
-    add_custom_command(TARGET Sdalcal POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:my_application> $<TARGET_FILE_DIR:my_application> COMMAND_EXPAND_LISTS)
+    add_custom_command(TARGET Sdalcal POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:Sdalcal> $<TARGET_FILE_DIR:Sdalcal> COMMAND_EXPAND_LISTS)
 endif()

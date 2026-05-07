@@ -15,5 +15,4 @@ class Sdalcal_Controller {
 
 }
 
-
 #endif
