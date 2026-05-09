@@ -3,17 +3,20 @@
 
 #include "app-window.h"
 #include "SdalcalCore.h"
+#include <slint-cpp.h> 
+#include <memory>
 
 class SdalcalController {
     private:
-        AppWindow* m_ui;
+        slint::ComponentHandle<AppWindow> m_ui;
 
         void handleInputChange(float distance, float levelL1);
+        void set_Callback_handling();
         SdalcalCoreResults calculateParameters(float distance, float level);
-        void updateUI();
+        void updateUI(SdalcalCoreResults results);
 
     public:
-        SdalcalController(AppWindow* ui);
+        SdalcalController(slint::ComponentHandle<AppWindow> ui);
     
 
 };

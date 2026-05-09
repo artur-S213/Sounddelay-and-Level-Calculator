@@ -16,6 +16,11 @@ if (NOT Slint_FOUND)
   FetchContent_MakeAvailable(Slint)
 endif (NOT Slint_FOUND)
 
+if (TARGET Slint::Slint)
+    get_target_property(SLINT_INC Slint::Slint INTERFACE_INCLUDE_DIRECTORIES)
+    include_directories(${SLINT_INC})
+endif()
+
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
