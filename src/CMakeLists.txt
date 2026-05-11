@@ -1,8 +1,16 @@
+if(WIN32)
+    set(RES_FILE "${CMAKE_CURRENT_BINARY_DIR}/resources.rc")
+    file(WRITE "${RES_FILE}" "IDI_ICON1 ICON DISCARDABLE \"${CMAKE_CURRENT_SOURCE_DIR}/../icons/icon.ico\"")
+    set(ICON_SOURCES ${RES_FILE})
+endif()
+
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 add_executable(Sdalcal 
     main.cpp
+    ${ICON_SOURCES}
+
 )
 
 slint_target_sources(Sdalcal 

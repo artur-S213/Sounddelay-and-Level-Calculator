@@ -46,15 +46,7 @@ jobs:
         shell: bash
         run: |
           mkdir -p dist
-          # Kopiere die Binary aus dem Rust-Target-Ordner
-          cp target/${{ matrix.target }}/release/acoustic-calculator${{ matrix.suffix }} dist/
           
-          # Zippen (Windows) oder Tar (Linux/macOS)
-          if [ "${{ runner.os }}" == "Windows" ]; then
-            powershell Compress-Archive -Path dist/* -DestinationPath build-assets.zip
-          else
-            tar -czf build-assets.tar.gz -C dist .
-          fi
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
