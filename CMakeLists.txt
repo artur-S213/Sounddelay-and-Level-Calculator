@@ -31,3 +31,5 @@ add_subdirectory(src)
 if (WIN32)
     add_custom_command(TARGET Sdalcal POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:Sdalcal> $<TARGET_FILE_DIR:Sdalcal> COMMAND_EXPAND_LISTS)
 endif()
+
+

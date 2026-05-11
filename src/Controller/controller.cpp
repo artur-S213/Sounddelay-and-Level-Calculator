@@ -1,11 +1,13 @@
 #include "app-window.h"
 #include "controller.h"
 #include "SdalcalCore.h"
+#include <slint.h> 
 #include <utility> 
 
 // Constructor
-SdalcalController::SdalcalController(slint::ComponentHandle<AppWindow> ui){
-    this->m_ui = std::move(ui);
+SdalcalController::SdalcalController(slint::ComponentHandle<AppWindow> ui) 
+    : m_ui(std::move(ui))
+{    
     set_Callback_handling();
 }
 

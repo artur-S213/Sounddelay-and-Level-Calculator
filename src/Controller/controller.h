@@ -1,10 +1,12 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
-#include "app-window.h"
+// #include "app-window.h"
 #include "SdalcalCore.h"
-#include <slint-cpp.h> 
+#include <slint.h> 
 #include <memory>
+
+class AppWindow;
 
 class SdalcalController {
     private:
